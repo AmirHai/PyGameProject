@@ -1,12 +1,14 @@
-import pygame
+from mainMenu import *
+from AllConstants import *
 
 if __name__ == '__main__':
     pygame.init()
 
-    scrSize = width, height = 1200, 800
+    scrSize = WIDTH, HEIGHT
     screen = pygame.display.set_mode(scrSize)
-    screen.fill((0, 0, 0))
-    pygame.display.set_caption('Soul Knight: Главное меню')
+    screen.fill(WHITE)
+
+    menu = Menu()
 
     fps = 60
     clock = pygame.time.Clock()
@@ -14,10 +16,8 @@ if __name__ == '__main__':
 
     while running:
         for event in pygame.event.get():
-            if event.type == pygame.QUIT:
+            if event == pygame.QUIT:
                 running = False
 
         pygame.display.flip()
         clock.tick(fps)
-
-    pygame.quit()
