@@ -1,5 +1,6 @@
 from AllConstants import *
 from serviceFunctions import load_image, terminate
+from GameProcess import gameInit
 
 
 def menu_init():
@@ -30,7 +31,7 @@ def menu_init():
                 terminate()
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if play_sprite.rect.collidepoint(event.pos):
-                    return
+                    gameInit()
                 if store_sprite.rect.collidepoint(event.pos):
                     pass
                 if settings_sprite.rect.collidepoint(event.pos):
