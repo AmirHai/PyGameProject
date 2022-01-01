@@ -1,27 +1,66 @@
 from AllConstants import *
+from serviceFunctions import *
+
+IMAGES = {
+    'wall': load_image('Стена.png'),
+    'empty': load_image('Земля.png'),
+    'hero': load_image('character.png')
+}
 
 
+# тут находятся мелкие подклассы клеток стены и пола, которые будут задаваться для поля.
+# тут я разместил их специально, так как будет намного легче за ними следить в основном классе
+class Wall(pygame.sprite.Sprite):
+    def __init__(self, walls_type, posX, posY, Group):
+        super().__init__(Group)
+        self.image = pygame.transform.scale(IMAGES[walls_type], (40, 40))
+        self.rect = self.image.get_rect().move(posX, posY)
+
+
+class Player(pygame.sprite.Sprite):
+    def __init__(self, player, Group):
+        super().__init__(Group)
+        self.image = pygame.transform.scale(IMAGES[player], (40, 40))
+        self.rect = self.image.get_rect().move(CENTER[0], CENTER[1])
+
+
+class Camera:
+    def __init__(self):
+        self.xChan = 0
+        self.yChan = 0
+
+    def apply(self, obj):
+        for i in obj:
+            i.rect.x += self.xChan
+            i.rect.y += self.yChan
+
+    def update(self, X, Y):
+        self.xChan = X
+        self.yChan = Y
+
+
+# основной класс карты игры, в котором происходит обработка поля во время ходьбы
 class GameMap:
     def __init__(self):
         self.board = [[0] * 100 for _ in range(100)]
         self.MainHeroPosition = [5.0, 5.0]
+        self.allWalls = pygame.sprite.Group()
+        self.allEmpty = pygame.sprite.Group()
+        self.playerGroup = pygame.sprite.Group()
         for i in range(ROOMSIZE):
             for j in range(ROOMSIZE):
+                x_change = CENTER[0] - round((self.MainHeroPosition[0] - i) * PIXELSIZE)
+                y_change = CENTER[1] - round((self.MainHeroPosition[1] - j) * PIXELSIZE)
+                # тут позже появится обработка карты по шаблону, сами шаблоны потом будут сгенерированны
+                # обработку поля я вынесу в отдельную функцию))))
                 if i == 0 or i == ROOMSIZE - 1 or j == 0 or j == ROOMSIZE - 1:
-                    self.board[i][j] = 2
+                    Wall('wall', x_change, y_change, self.allWalls)
                 else:
-                    self.board[i][j] = 1
+                    Wall('empty', x_change, y_change, self.allEmpty)
+        Player('hero', self.playerGroup)
 
     def render(self):
         SCREEN.fill('Black')
-        # тут происходит полная отрисовка карты, в котором цвета всех элементов изменятся в картинки
-        for i in range(100):
-            for j in range(100):
-                x_change = CENTER[0] - round((self.MainHeroPosition[0] - i) * PIXELSIZE)
-                y_change = CENTER[1] - round((self.MainHeroPosition[1] - j) * PIXELSIZE)
-                if self.board[i][j] == 1:
-                    pygame.draw.rect(SCREEN, (150, 150, 150), (x_change, y_change, PIXELSIZE, PIXELSIZE), 0)
-                elif self.board[i][j] == 2:
-                    pygame.draw.rect(SCREEN, (100, 100, 100), (x_change, y_change, PIXELSIZE, PIXELSIZE), 0)
-
-        pygame.draw.rect(SCREEN, (0, 150, 0), (CENTER[0], CENTER[1], PIXELSIZE, PIXELSIZE), 0)
+        self.allWalls.draw(SCREEN)
+        self.allEmpty.draw(SCREEN)
+        self.playerGroup.draw(SCREEN)

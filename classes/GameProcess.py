@@ -1,47 +1,43 @@
-from serviceFunctions import *
 from GameMap import *
 
 
 def gameInit():
-    allSprites = pygame.sprite.Group()
-    Hero_sprite = pygame.sprite.Sprite(allSprites)
-    Hero_sprite.image = pygame.transform.scale(load_image('character.png'), HEROSIZE)
-    Hero_sprite.rect = Hero_sprite.image.get_rect()
-    Hero_sprite.rect.x = CENTER[0]
-    Hero_sprite.rect.y = CENTER[1]
     gmap = GameMap()
     allkeys = [False] * 4
+    buttons = [pygame.K_w, pygame.K_s, pygame.K_a, pygame.K_d]
+
+    camera = Camera()
+
     while True:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 terminate()
-            # копипаст чуть позже уберу))) >> AmirHai
+
             if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_w:
-                    allkeys[0] = True
-                if event.key == pygame.K_s:
-                    allkeys[1] = True
-                if event.key == pygame.K_a:
-                    allkeys[2] = True
-                if event.key == pygame.K_d:
-                    allkeys[3] = True
+                for i, key in enumerate(buttons):
+                    if event.key == key:
+                        allkeys[i] = True
             if event.type == pygame.KEYUP:
-                if event.key == pygame.K_w:
-                    allkeys[0] = False
-                if event.key == pygame.K_s:
-                    allkeys[1] = False
-                if event.key == pygame.K_a:
-                    allkeys[2] = False
-                if event.key == pygame.K_d:
-                    allkeys[3] = False
+                for i, key in enumerate(buttons):
+                    if event.key == key:
+                        allkeys[i] = False
+        camera.update(0, 0)
         if allkeys[0]:
             gmap.MainHeroPosition = [gmap.MainHeroPosition[0], gmap.MainHeroPosition[1] - 0.1]
+            camera.update(0, 4)
         if allkeys[1]:
             gmap.MainHeroPosition = [gmap.MainHeroPosition[0], gmap.MainHeroPosition[1] + 0.1]
+            camera.update(0, -4)
         if allkeys[2]:
             gmap.MainHeroPosition = [gmap.MainHeroPosition[0] - 0.1, gmap.MainHeroPosition[1]]
+            camera.update(4, 0)
         if allkeys[3]:
             gmap.MainHeroPosition = [gmap.MainHeroPosition[0] + 0.1, gmap.MainHeroPosition[1]]
+            camera.update(-4, 0)
+
+        camera.apply(gmap.allWalls)
+        camera.apply(gmap.allEmpty)
+
         gmap.render()
         pygame.display.flip()
         CLOCK.tick(FPS)
