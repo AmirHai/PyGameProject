@@ -26,19 +26,16 @@ def gameInit():
                 bullet = Bullet(bullets_sprites, event.pos)
             if event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
                 menu_init()
+        PlayerSpeed = [0.0, 0.0]
         camera.update(0, 0)
-        if allkeys[0]:
-            gmap.MainHeroPosition = [gmap.MainHeroPosition[0], gmap.MainHeroPosition[1] - 0.1]
-            camera.update(0, 4)
-        if allkeys[1]:
-            gmap.MainHeroPosition = [gmap.MainHeroPosition[0], gmap.MainHeroPosition[1] + 0.1]
-            camera.update(0, -4)
-        if allkeys[2]:
-            gmap.MainHeroPosition = [gmap.MainHeroPosition[0] - 0.1, gmap.MainHeroPosition[1]]
-            camera.update(4, 0)
-        if allkeys[3]:
-            gmap.MainHeroPosition = [gmap.MainHeroPosition[0] + 0.1, gmap.MainHeroPosition[1]]
-            camera.update(-4, 0)
+
+        for i, bol in enumerate(allkeys):
+            if bol:
+                PlayerSpeed[i // 2 - 1] += 0.1 * (-1) ** (i % 2)
+                gmap.MainHeroPosition = [gmap.MainHeroPosition[0] + PlayerSpeed[0],
+                                         gmap.MainHeroPosition[1] + PlayerSpeed[1]]
+
+        camera.update(round(PlayerSpeed[0] * 40), round(PlayerSpeed[1] * 40))
         for i in bullets_sprites:
             i.update()
             for j in gmap.allWalls:
