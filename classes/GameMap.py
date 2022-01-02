@@ -15,12 +15,13 @@ class Wall(pygame.sprite.Sprite):
         super().__init__(Group)
         self.image = pygame.transform.scale(IMAGES[walls_type], (40, 40))
         self.rect = self.image.get_rect().move(posX, posY)
+        self.mask = pygame.mask.from_surface(self.image)
 
 
 class Player(pygame.sprite.Sprite):
     def __init__(self, player, Group):
         super().__init__(Group)
-        self.image = pygame.transform.scale(IMAGES[player], (40, 40))
+        self.image = pygame.transform.scale(IMAGES[player], (PIXELSIZE, PIXELSIZE))
         self.rect = self.image.get_rect().move(CENTER[0], CENTER[1])
 
 

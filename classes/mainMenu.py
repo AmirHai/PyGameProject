@@ -1,6 +1,5 @@
 from AllConstants import *
 from serviceFunctions import load_image, terminate
-from GameProcess import gameInit
 
 
 def menu_init():
@@ -31,13 +30,15 @@ def menu_init():
                 terminate()
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if play_sprite.rect.collidepoint(event.pos):
-                    gameInit()
+                    return
                 if store_sprite.rect.collidepoint(event.pos):
                     pass
                 if settings_sprite.rect.collidepoint(event.pos):
                     pass
                 if exit_sprite.rect.collidepoint(event.pos):
                     terminate()
+            if event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
+                return
         SCREEN.fill('Black')
         buttons_sprites.draw(SCREEN)
         pygame.display.flip()
