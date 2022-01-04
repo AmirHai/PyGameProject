@@ -46,6 +46,7 @@ class GameMap:
         self.board = [[0] * 100 for _ in range(100)]
         self.MainHeroPosition = [5.0, 5.0]
         self.allWalls = pygame.sprite.Group()
+        self.WallKoordinates = set()
         self.allEmpty = pygame.sprite.Group()
         self.playerGroup = pygame.sprite.Group()
         for i in range(ROOMSIZE):
@@ -56,6 +57,9 @@ class GameMap:
                 # обработку поля я вынесу в отдельную функцию))))
                 if i == 0 or i == ROOMSIZE - 1 or j == 0 or j == ROOMSIZE - 1:
                     Wall('wall', x_change, y_change, self.allWalls)
+                    self.WallKoordinates.add((i, j))
+                    self.WallKoordinates.add((i - 1, j))
+                    self.WallKoordinates.add((i, j - 1))
                 else:
                     Wall('empty', x_change, y_change, self.allEmpty)
         Player('hero', self.playerGroup)
@@ -65,3 +69,11 @@ class GameMap:
         self.allWalls.draw(SCREEN)
         self.allEmpty.draw(SCREEN)
         self.playerGroup.draw(SCREEN)
+
+    def WallHelper(self, moving):
+        ChangedMove = moving
+        if (int(self.MainHeroPosition[0] - moving[0]), int(self.MainHeroPosition[1])) in self.WallKoordinates:
+            ChangedMove[0] = 0.0
+        if (int(self.MainHeroPosition[0]), int(self.MainHeroPosition[1] - moving[1])) in self.WallKoordinates:
+            ChangedMove[1] = 0.0
+        return ChangedMove

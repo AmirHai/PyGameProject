@@ -32,9 +32,9 @@ def gameInit():
         for i, bol in enumerate(allkeys):
             if bol:
                 PlayerSpeed[i // 2 - 1] += 0.1 * (-1) ** (i % 2)
-                gmap.MainHeroPosition = [gmap.MainHeroPosition[0] + PlayerSpeed[0],
-                                         gmap.MainHeroPosition[1] + PlayerSpeed[1]]
-
+        PlayerSpeed = gmap.WallHelper(PlayerSpeed)
+        gmap.MainHeroPosition = [round(gmap.MainHeroPosition[0] - PlayerSpeed[0], 2),
+                                 round(gmap.MainHeroPosition[1] - PlayerSpeed[1], 2)]
         camera.update(round(PlayerSpeed[0] * 40), round(PlayerSpeed[1] * 40))
         for i in bullets_sprites:
             i.update()
