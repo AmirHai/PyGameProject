@@ -49,18 +49,21 @@ class GameMap:
         self.WallKoordinates = set()
         self.allEmpty = pygame.sprite.Group()
         self.playerGroup = pygame.sprite.Group()
-        for i in range(ROOMSIZE):
-            for j in range(ROOMSIZE):
+        self.MapHandler()
+        Player('hero', self.playerGroup)
+
+    def MapHandler(self):
+        self.board = load_map('testMap')
+        for i in range(100):
+            for j in range(100):
                 x_change = CENTER[0] - round((self.MainHeroPosition[0] - i) * PIXELSIZE)
                 y_change = CENTER[1] - round((self.MainHeroPosition[1] - j) * PIXELSIZE)
-                # тут позже появится обработка карты по шаблону, сами шаблоны потом будут сгенерированны
-                # обработку поля я вынесу в отдельную функцию))))
-                if i == 0 or i == ROOMSIZE - 1 or j == 0 or j == ROOMSIZE - 1:
+                if self.board[i][j] == 2:
                     Wall('wall', x_change, y_change, self.allWalls)
                     self.WallKoordinates.add((i, j))
                     self.WallKoordinates.add((i - 1, j))
                     self.WallKoordinates.add((i, j - 1))
-                else:
+                elif self.board[i][j] == 1:
                     Wall('empty', x_change, y_change, self.allEmpty)
         Player('hero', self.playerGroup)
 

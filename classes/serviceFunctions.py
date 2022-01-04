@@ -20,3 +20,12 @@ def load_image(name, colorkey=None):
 def terminate():
     pygame.quit()
     sys.exit()
+
+
+def load_map(name):
+    board = []
+    file = open(f'./maps/{name}.csv', encoding='utf8').read()
+    file = file.split('\n')
+    for i in file:
+        board.append([int(j) for j in i.split(' ')])
+    return board

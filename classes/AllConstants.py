@@ -10,5 +10,4 @@ HEROSIZE = (80, 80)
 # точка ценра для прорисовки главного героя
 CENTER = (620, 340)
 PIXELSIZE = 40
-ROOMSIZE = 15
 BULLETSIZE = (15, 15)
