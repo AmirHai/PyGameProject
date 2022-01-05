@@ -1,3 +1,5 @@
+import pygame.sprite
+
 from GameMap import *
 from Bullet import Bullet
 from mainMenu import menu_init
@@ -10,6 +12,9 @@ def gameInit():
     bullets_sprites = pygame.sprite.Group()
     bullet = None
     camera = Camera()
+    weapons = ['pistol', None]
+    weapons_sprites = pygame.sprite.Group()
+    weapon = Weapon(weapons_sprites, weapons[0])
     while True:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -23,7 +28,7 @@ def gameInit():
                     if event.key == key:
                         allkeys[i] = False
             if event.type == pygame.MOUSEBUTTONDOWN:
-                bullet = Bullet(bullets_sprites, event.pos)
+                bullet = Bullet(bullets_sprites, event.pos, weapons[0])
             if event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
                 menu_init()
         PlayerSpeed = [0.0, 0.0]
@@ -47,6 +52,7 @@ def gameInit():
         if bullet:
             camera.apply(bullets_sprites)
         gmap.render()
+        weapons_sprites.draw(SCREEN)
         bullets_sprites.draw(SCREEN)
         pygame.display.flip()
         CLOCK.tick(FPS)

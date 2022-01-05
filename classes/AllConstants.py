@@ -1,4 +1,5 @@
 import pygame
+import sqlite3
 
 WIDTH = 1280
 HEIGHT = 720
@@ -9,5 +10,7 @@ BUTTONSIZE = (300, 100)
 HEROSIZE = (80, 80)
 # точка ценра для прорисовки главного героя
 CENTER = (620, 340)
+STOREITEMSIZE = (120, 80)
 PIXELSIZE = 40
-BULLETSIZE = (15, 15)
+CON = sqlite3.connect('game_info.sqlite')
+CUR = CON.cursor()

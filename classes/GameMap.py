@@ -1,3 +1,5 @@
+import pygame.sprite
+
 from AllConstants import *
 from serviceFunctions import *
 
@@ -23,6 +25,13 @@ class Player(pygame.sprite.Sprite):
         super().__init__(Group)
         self.image = pygame.transform.scale(IMAGES[player], (PIXELSIZE, PIXELSIZE))
         self.rect = self.image.get_rect().move(CENTER[0], CENTER[1])
+
+
+class Weapon(pygame.sprite.Sprite):
+    def __init__(self, group, name):
+        super().__init__(group)
+        self.image = pygame.transform.scale(load_image(name + '.png'), (PIXELSIZE * 0.5, PIXELSIZE * 0.5))
+        self.rect = self.image.get_rect().move(CENTER[0] + PIXELSIZE * 0.75, CENTER[1] + PIXELSIZE * 0.5)
 
 
 class Camera:
