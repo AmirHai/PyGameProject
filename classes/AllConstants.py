@@ -7,7 +7,7 @@ CLOCK = pygame.time.Clock()
 SCREEN = pygame.display.set_mode((WIDTH, HEIGHT))
 FPS = 60
 BUTTONSIZE = (300, 100)
-HEROSIZE = (80, 80)
+HEROSIZE = (40, 40)
 # точка ценра для прорисовки главного героя
 CENTER = (620, 340)
 STOREITEMSIZE = (120, 80)

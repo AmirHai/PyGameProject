@@ -56,6 +56,7 @@ class GameMap:
         self.MainHeroPosition = [5.0, 5.0]
         self.allWalls = pygame.sprite.Group()
         self.WallKoordinates = set()
+        self.emptyKoordinates = []
         self.allEmpty = pygame.sprite.Group()
         self.playerGroup = pygame.sprite.Group()
         self.MapHandler()
@@ -73,6 +74,7 @@ class GameMap:
                     self.WallKoordinates.add((i - 1, j))
                     self.WallKoordinates.add((i, j - 1))
                 elif self.board[i][j] == 1:
+                    self.emptyKoordinates.append([i, j])
                     Wall('empty', x_change, y_change, self.allEmpty)
         Player('hero', self.playerGroup)
 
