@@ -3,8 +3,9 @@ import random
 
 from GameMap import *
 from Bullet import Bullet
-from mainMenu import menu_init
+from menu import menu_init
 from Monster import *
+from random import randrange
 
 
 def gameInit():
@@ -37,9 +38,22 @@ def gameInit():
                     if event.key == key:
                         allkeys[i] = False
             if event.type == pygame.MOUSEBUTTONDOWN:
-                bullet = Bullet(bullets_sprites, event.pos, weapons[0])
+                if weapons[0] != 'shotgun':
+                    bullet = Bullet(bullets_sprites, event.pos, weapons[0])
+                else:
+                    for i in range(8):
+                        bullet = Bullet(bullets_sprites, (event.pos[0] + randrange(-25, 25),
+                                                          event.pos[1] + randrange(-25, 25)), weapons[0])
             if event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
-                menu_init()
+                bought_weapon = menu_init()
+                if bought_weapon:
+                    weapons[1] = bought_weapon
+            if event.type == pygame.KEYDOWN and event.key == pygame.K_r:
+                if None not in weapons:
+                    weapons[0], weapons[1] = weapons[1], weapons[0]
+                    weapons_sprites = pygame.sprite.Group()
+                    weapon = Weapon(weapons_sprites, weapons[0])
+
         PlayerSpeed = [0.0, 0.0]
         camera.update(0, 0)
 
