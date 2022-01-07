@@ -14,3 +14,4 @@ STOREITEMSIZE = (120, 80)
 PIXELSIZE = 40
 CON = sqlite3.connect('game_info.sqlite')
 CUR = CON.cursor()
+MONSTERVISION = 13

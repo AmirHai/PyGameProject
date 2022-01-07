@@ -61,7 +61,7 @@ class GameMap:
         self.playerGroup = pygame.sprite.Group()
         self.MapHandler(level)
         Player('hero', self.playerGroup)
-        self.PlayerLife = 10
+        self.PlayerLife = 6
 
     def MapHandler(self, level):
         self.board = load_map(f'{str(level)}levelMap')

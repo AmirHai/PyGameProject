@@ -28,7 +28,7 @@ class Monster(pygame.sprite.Sprite):
         self.life = life
 
     def moveToPlayer(self, PlayerPosition):
-        if abs(PlayerPosition[0] - self.position[0]) < 10 and abs(PlayerPosition[1] - self.position[1]) < 10:
+        if abs(PlayerPosition[0] - self.position[0]) < MONSTERVISION and abs(PlayerPosition[1] - self.position[1]) < MONSTERVISION:
             self.speed = [IntoSpeed(PlayerPosition[0] - self.position[0]),
                           IntoSpeed(PlayerPosition[1] - self.position[1])]
         else:
