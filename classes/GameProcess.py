@@ -3,11 +3,12 @@ import random
 
 from GameMap import *
 from Bullet import Bullet
+from mainMenu import menu_init
 from Monster import *
 
 
-def gameInit(level):
-    gmap = GameMap(level)
+def gameInit():
+    gmap = GameMap()
     allkeys = [False] * 4
     buttons = [pygame.K_w, pygame.K_s, pygame.K_a, pygame.K_d]
     bullets_sprites = pygame.sprite.Group()
@@ -19,10 +20,9 @@ def gameInit(level):
 
     Monsters_sprites = pygame.sprite.Group()
 
-    for i in range(10):
+    for i in range(5):
         MonsterPos = random.choice(gmap.emptyKoordinates)
-        Monster('swordsman', MonsterPos, gmap.MainHeroPosition, Monsters_sprites, level)
-
+        Monster('swordsman', MonsterPos, gmap.MainHeroPosition, Monsters_sprites)
 
     while True:
         for event in pygame.event.get():
@@ -66,15 +66,8 @@ def gameInit(level):
                     continue
             for j in Monsters_sprites:
                 if pygame.sprite.collide_mask(i, j):
-                    if j.life == 1:
-                        i.remove(bullets_sprites)
-                        j.remove(Monsters_sprites)
-                    else:
-                        i.remove(bullets_sprites)
-                        j.life -= 1
-
-        if len(Monsters_sprites) == 0:
-            return level + 1
+                    i.remove(bullets_sprites)
+                    j.remove(Monsters_sprites)
 
         camera.apply(gmap.allWalls)
         camera.apply(gmap.allEmpty)

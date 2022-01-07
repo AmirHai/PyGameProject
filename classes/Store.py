@@ -44,7 +44,12 @@ def store():
             if event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
                 return
             if event.type == pygame.MOUSEBUTTONDOWN:
-                pass
+                if item1.rect.collidepoint(event.pos):
+                    return items[0][0]
+                if item2.rect.collidepoint(event.pos):
+                    return items[1][0]
+                if item3.rect.collidepoint(event.pos):
+                    return items[2][0]
         SCREEN.fill('Black')
         for i in prices_text:
             SCREEN.blit(i[0], i[1])
