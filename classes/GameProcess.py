@@ -4,6 +4,8 @@ import random
 from GameMap import *
 from Bullet import Bullet
 from Monster import *
+from menu import menu_init
+from random import randrange
 
 
 def gameInit(level):
@@ -16,6 +18,7 @@ def gameInit(level):
     weapons = ['pistol', None]
     weapons_sprites = pygame.sprite.Group()
     weapon = Weapon(weapons_sprites, weapons[0])
+    running_time = 0
 
     running = True
     new_level = False
@@ -38,10 +41,24 @@ def gameInit(level):
                 for i, key in enumerate(buttons):
                     if event.key == key:
                         allkeys[i] = False
-            if event.type == pygame.MOUSEBUTTONDOWN:
-                bullet = Bullet(bullets_sprites, event.pos, weapons[0])
             if event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
-                menu_init()
+                bought_item = menu_init()
+                if bought_item:
+                    weapons[1] = bought_item
+            if event.type == pygame.KEYDOWN and event.key == pygame.K_r:
+                if weapons[1]:
+                    weapons[0], weapons[1] = weapons[1], weapons[0]
+        if pygame.mouse.get_pressed()[0]:
+            if running_time >= CUR.execute("""SELECT * FROM weapon_info WHERE name = ?""",
+                                           (weapons[0],)).fetchall()[0][5]:
+                pos = pygame.mouse.get_pos()
+                if weapons[0] != 'shotgun':
+                    bullet = Bullet(bullets_sprites, pos, weapons[0])
+                else:
+                    for i in range(8):
+                        bullet = Bullet(bullets_sprites, (pos[0] + randrange(-25, 25),
+                                                          pos[1] + randrange(-25, 25)), weapons[0])
+                running_time = 0
         PlayerSpeed = [0.0, 0.0]
         camera.update(0, 0)
 
@@ -87,6 +104,7 @@ def gameInit(level):
             running = False
             new_level = False
 
+        running_time += 1
         camera.apply(gmap.allWalls)
         camera.apply(gmap.allEmpty)
         camera.apply(Monsters_sprites)

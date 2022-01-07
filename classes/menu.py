@@ -25,17 +25,18 @@ def menu_init():
     exit_sprite.rect = exit_sprite.image.get_rect()
     exit_sprite.rect.x = 450
     exit_sprite.rect.y = 600
+    weapon = None
     while True:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 terminate()
             if event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
-                return
+                return weapon
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if play_sprite.rect.collidepoint(event.pos):
-                    return
+                    return weapon
                 if store_sprite.rect.collidepoint(event.pos):
-                    store()
+                    weapon = store()
                 if settings_sprite.rect.collidepoint(event.pos):
                     pass
                 if exit_sprite.rect.collidepoint(event.pos):
