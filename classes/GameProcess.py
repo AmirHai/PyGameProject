@@ -3,12 +3,11 @@ import random
 
 from GameMap import *
 from Bullet import Bullet
-from mainMenu import menu_init
 from Monster import *
 
 
-def gameInit():
-    gmap = GameMap()
+def gameInit(level):
+    gmap = GameMap(level)
     allkeys = [False] * 4
     buttons = [pygame.K_w, pygame.K_s, pygame.K_a, pygame.K_d]
     bullets_sprites = pygame.sprite.Group()
@@ -18,13 +17,16 @@ def gameInit():
     weapons_sprites = pygame.sprite.Group()
     weapon = Weapon(weapons_sprites, weapons[0])
 
+    running = True
+    new_level = False
+
     Monsters_sprites = pygame.sprite.Group()
 
-    for i in range(5):
+    for i in range(10):
         MonsterPos = random.choice(gmap.emptyKoordinates)
-        Monster('swordsman', MonsterPos, gmap.MainHeroPosition, Monsters_sprites)
+        Monster('swordsman', MonsterPos, gmap.MainHeroPosition, Monsters_sprites, level)
 
-    while True:
+    while running:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 terminate()
@@ -66,8 +68,24 @@ def gameInit():
                     continue
             for j in Monsters_sprites:
                 if pygame.sprite.collide_mask(i, j):
-                    i.remove(bullets_sprites)
-                    j.remove(Monsters_sprites)
+                    if j.life == 1:
+                        i.remove(bullets_sprites)
+                        j.remove(Monsters_sprites)
+                    else:
+                        i.remove(bullets_sprites)
+                        j.life -= 1
+
+        for i in gmap.playerGroup:
+            for j in Monsters_sprites:
+                if pygame.sprite.collide_mask(i, j):
+                    gmap.PlayerLife -= 1
+
+        if len(Monsters_sprites) == 0:
+            running = False
+            new_level = True
+        elif gmap.PlayerLife == 0:
+            running = False
+            new_level = False
 
         camera.apply(gmap.allWalls)
         camera.apply(gmap.allEmpty)
@@ -80,3 +98,8 @@ def gameInit():
         Monsters_sprites.draw(SCREEN)
         pygame.display.flip()
         CLOCK.tick(FPS)
+
+    if new_level:
+        return level + 1
+    else:
+        return level
