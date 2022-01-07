@@ -6,14 +6,14 @@ for i in range(15):
         if i == 0 or i == 14 or j == 0 or j == 14:
             board[i][j] = 2
         else:
-            board[i][j] = 1
+            board[i][j] = 3
 
 for i in range(14, 27):
     for j in range(4, 11):
         if j == 4 or j == 10:
             board[i][j] = 2
         else:
-            board[i][j] = 1
+            board[i][j] = 3
 
 for i in range(25, 40):
     for j in range(15):

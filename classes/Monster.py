@@ -16,7 +16,7 @@ def IntoSpeed(numb):
 
 
 class Monster(pygame.sprite.Sprite):
-    def __init__(self, monsterType, position, playerPos, SpriteGroup):
+    def __init__(self, monsterType, position, playerPos, SpriteGroup, life):
         super().__init__(SpriteGroup)
         self.image = pygame.transform.scale(TYPES[monsterType], (25, 40))
 
@@ -25,6 +25,7 @@ class Monster(pygame.sprite.Sprite):
 
         self.rect = self.image.get_rect().move(xpos, ypos)
         self.position = position
+        self.life = life
 
     def moveToPlayer(self, PlayerPosition):
         if abs(PlayerPosition[0] - self.position[0]) < 10 and abs(PlayerPosition[1] - self.position[1]) < 10:

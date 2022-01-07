@@ -8,4 +8,3 @@ if __name__ == '__main__':
     screen = pygame.display.set_mode(scrSize)
     pygame.display.set_caption('Game')
     menu_init()
-    gameInit()

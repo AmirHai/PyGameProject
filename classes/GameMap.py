@@ -51,7 +51,7 @@ class Camera:
 
 # основной класс карты игры, в котором происходит обработка поля во время ходьбы
 class GameMap:
-    def __init__(self):
+    def __init__(self, level):
         self.board = [[0] * 100 for _ in range(100)]
         self.MainHeroPosition = [5.0, 5.0]
         self.allWalls = pygame.sprite.Group()
@@ -59,11 +59,11 @@ class GameMap:
         self.emptyKoordinates = []
         self.allEmpty = pygame.sprite.Group()
         self.playerGroup = pygame.sprite.Group()
-        self.MapHandler()
+        self.MapHandler(level)
         Player('hero', self.playerGroup)
 
-    def MapHandler(self):
-        self.board = load_map('testMap')
+    def MapHandler(self, level):
+        self.board = load_map(f'{str(level)}levelMap')
         for i in range(100):
             for j in range(100):
                 x_change = CENTER[0] - round((self.MainHeroPosition[0] - i) * PIXELSIZE)
@@ -75,6 +75,8 @@ class GameMap:
                     self.WallKoordinates.add((i, j - 1))
                 elif self.board[i][j] == 1:
                     self.emptyKoordinates.append([i, j])
+                    Wall('empty', x_change, y_change, self.allEmpty)
+                elif self.board[i][j] == 3:
                     Wall('empty', x_change, y_change, self.allEmpty)
         Player('hero', self.playerGroup)
 

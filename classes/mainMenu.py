@@ -1,6 +1,7 @@
 from AllConstants import *
 from serviceFunctions import load_image, terminate
 from Store import store
+from GameProcess import gameInit
 
 
 def menu_init():
@@ -25,6 +26,7 @@ def menu_init():
     exit_sprite.rect = exit_sprite.image.get_rect()
     exit_sprite.rect.x = 450
     exit_sprite.rect.y = 600
+    level = 1
     while True:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -33,7 +35,7 @@ def menu_init():
                 return
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if play_sprite.rect.collidepoint(event.pos):
-                    return
+                    level = gameInit(level)
                 if store_sprite.rect.collidepoint(event.pos):
                     store()
                 if settings_sprite.rect.collidepoint(event.pos):
