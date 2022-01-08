@@ -3,7 +3,8 @@ from serviceFunctions import load_image, terminate
 from Store import store
 
 
-def menu_init():
+def menu_init(money, flag, items):
+    money = money // 2
     buttons_sprites = pygame.sprite.Group()
     play_sprite = pygame.sprite.Sprite(buttons_sprites)
     play_sprite.image = pygame.transform.scale(load_image('play.png'), BUTTONSIZE)
@@ -31,12 +32,15 @@ def menu_init():
             if event.type == pygame.QUIT:
                 terminate()
             if event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
-                return weapon
+                return weapon, money * 2, items
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if play_sprite.rect.collidepoint(event.pos):
-                    return weapon
+                    return weapon, money * 2, items
                 if store_sprite.rect.collidepoint(event.pos):
-                    weapon = store()
+                    new_weapon, money, items = store(money, flag, items)
+                    if new_weapon:
+                        weapon = new_weapon
+                    flag = False
                 if settings_sprite.rect.collidepoint(event.pos):
                     pass
                 if exit_sprite.rect.collidepoint(event.pos):

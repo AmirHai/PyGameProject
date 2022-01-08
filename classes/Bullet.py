@@ -11,7 +11,7 @@ class Bullet(pygame.sprite.Sprite):
         self.image = pygame.transform.scale(load_image('bullet.png'), (result[0][2], result[0][2]))
         self.mask = pygame.mask.from_surface(self.image)
         self.rect = self.image.get_rect()
-        self.rect = self.rect.move(CENTER[0] + PIXELSIZE, CENTER[1] + PIXELSIZE * 0.5)
+        self.rect = self.rect.move(CENTER[0] + PIXELSIZE * 1.25, CENTER[1] + PIXELSIZE * 0.5)
         self.speed = result[0][1]
         self.xspeed = None
         self.yspeed = None
