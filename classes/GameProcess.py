@@ -9,7 +9,15 @@ from menu import menu_init
 from random import randrange
 from endgame_Event import *
 
-HEARTIMAGE = load_image('heart.png')
+ALLIMAGES = {
+    'heart': load_image('heart.png'),
+    'heroStanding': load_image('./characterGif/перс-аним1.png'),
+    'heroMove1': load_image('./characterGif/перс-аним2.png'),
+    'heroMove2': load_image('./characterGif/перс-аним3.png'),
+    'skeletonStand': load_image('./SkeletonGif/скелет-аним1.png'),
+    'skeletonMove1': load_image('./SkeletonGif/скелет-аним2.png'),
+    'skeletonMove2': load_image('./SkeletonGif/скелет-аним3.png'),
+}
 
 
 def gameInit(level):
@@ -26,6 +34,9 @@ def gameInit(level):
 
     cooldawn = 0
     monsterStopped = []
+    MonsterMove = []
+
+    PlayerAnimation = 0
 
     gameRunning = True
     new_level = False
@@ -37,6 +48,7 @@ def gameInit(level):
         MonsterPos = random.choice(gmap.emptyKoordinates)
         Monster('swordsman', MonsterPos, gmap.MainHeroPosition, Monsters_sprites, level)
         monsterStopped.append(0)
+        MonsterMove.append(False)
 
     while gameRunning:
         for event in pygame.event.get():
@@ -82,6 +94,18 @@ def gameInit(level):
                 PlayerSpeed[i // 2 - 1] += 0.15 * (-1) ** (i % 2)
         PlayerSpeed = gmap.WallHelper(PlayerSpeed)
 
+        if PlayerSpeed[0] == 0.0 and PlayerSpeed[1] == 0.0:
+            for i in gmap.playerGroup:
+                i.image = pygame.transform.scale(ALLIMAGES['heroStanding'], (40, 40))
+        else:
+
+            for i in gmap.playerGroup:
+                if PlayerAnimation % 10 == 0:
+                    i.image = pygame.transform.scale(ALLIMAGES['heroMove1'], (40, 40))
+
+                if PlayerAnimation % 20 == 0:
+                    i.image = pygame.transform.scale(ALLIMAGES['heroMove2'], (40, 40))
+
         gmap.MainHeroPosition = [round(gmap.MainHeroPosition[0] - PlayerSpeed[0], 2),
                                  round(gmap.MainHeroPosition[1] - PlayerSpeed[1], 2)]
 
@@ -92,8 +116,15 @@ def gameInit(level):
             if monsterStopped[i] == 0:
                 obj.moveToPlayer(gmap.MainHeroPosition)
                 obj.WallHelper(gmap.WallKoordinates)
+                if obj.speed[0] == 0.0 and obj.speed[1] == 0.0:
+                    obj.image = pygame.transform.scale(ALLIMAGES['skeletonStand'], [25, 40])
+                else:
+                    if PlayerAnimation % 10 == 0:
+                        obj.image = pygame.transform.scale(ALLIMAGES['skeletonMove1'], [40, 40])
+                    if PlayerAnimation % 20 == 0:
+                        obj.image = pygame.transform.scale(ALLIMAGES['skeletonMove2'], [40, 40])
                 obj.update()
-            elif monsterStopped[i] == 60:
+            elif monsterStopped[i] == 30:
                 monsterStopped[i] = 0
 
         # обработка соприкосновений пуль со стеной и мобами
@@ -108,7 +139,6 @@ def gameInit(level):
                     if obj.life == 1:
                         i.remove(bullets_sprites)
                         obj.remove(Monsters_sprites)
-                        monsterStopped.pop(j)
                     else:
                         i.remove(bullets_sprites)
                         obj.life -= 1
@@ -132,6 +162,7 @@ def gameInit(level):
 
         running_time += 1
         cooldawn += 1
+        PlayerAnimation += 1
 
         # обработка камеры и отрисовка поля
         camera.apply(gmap.allWalls)
@@ -151,7 +182,7 @@ def gameInit(level):
 
         # отрисовка полоски здоровья
         for i in range(gmap.PlayerLife):
-            heart = pygame.transform.scale(HEARTIMAGE, [25, 25])
+            heart = pygame.transform.scale(ALLIMAGES['heart'], [25, 25])
             SCREEN.blit(heart, [10 + i * 30, 10])
 
         pygame.display.flip()

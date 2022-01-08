@@ -6,7 +6,7 @@ from serviceFunctions import *
 IMAGES = {
     'wall': load_image('Стена.png'),
     'empty': load_image('Земля.png'),
-    'hero': load_image('character.png')
+    'hero': load_image('./characterGif/перс-аним1.png')
 }
 
 
