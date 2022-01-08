@@ -17,12 +17,12 @@ def gameInit(level):
     allkeys = [False] * 4
     buttons = [pygame.K_w, pygame.K_s, pygame.K_a, pygame.K_d]
     bullets_sprites = pygame.sprite.Group()
-    bullet = None
     camera = Camera()
     weapons = ['pistol', None]
-    weapons_sprites = pygame.sprite.Group()
-    weapon = Weapon(weapons_sprites, weapons[0])
+    weapon_sprite = pygame.sprite.Group()
+    Weapon(weapon_sprite, weapons[0])
     running_time = 0
+    coins_collected = 0
 
     cooldawn = 0
     monsterStopped = []
@@ -31,6 +31,7 @@ def gameInit(level):
     new_level = False
 
     Monsters_sprites = pygame.sprite.Group()
+    coins_sprites = pygame.sprite.Group()
 
     # создание монстров
     for i in range(10):
@@ -66,11 +67,11 @@ def gameInit(level):
                                            (weapons[0],)).fetchall()[0][5]:
                 pos = pygame.mouse.get_pos()
                 if weapons[0] != 'shotgun':
-                    bullet = Bullet(bullets_sprites, pos, weapons[0])
+                    Bullet(bullets_sprites, pos, weapons[0])
                 else:
                     for i in range(8):
-                        bullet = Bullet(bullets_sprites, (pos[0] + randrange(-25, 25),
-                                                          pos[1] + randrange(-25, 25)), weapons[0])
+                        Bullet(bullets_sprites, (pos[0] + randrange(-25, 25),
+                                                 pos[1] + randrange(-25, 25)), weapons[0])
                 running_time = 0
 
         PlayerSpeed = [0.0, 0.0]
@@ -107,12 +108,19 @@ def gameInit(level):
                 if pygame.sprite.collide_mask(i, obj):
                     if obj.life == 1:
                         i.remove(bullets_sprites)
+                        obj.die(coins_sprites)
                         obj.remove(Monsters_sprites)
                         monsterStopped.pop(j)
                     else:
                         i.remove(bullets_sprites)
                         obj.life -= 1
                         monsterStopped[j] = 1
+
+        for i in coins_sprites:
+            for j in gmap.playerGroup:
+                if pygame.sprite.collide_mask(i, j):
+                    coins_collected += 1
+                    i.remove(coins_sprites)
 
         # обработка прикосновения монстра с игроком
         for i in gmap.playerGroup:
@@ -137,12 +145,13 @@ def gameInit(level):
         camera.apply(gmap.allWalls)
         camera.apply(gmap.allEmpty)
         camera.apply(Monsters_sprites)
-        if bullet:
-            camera.apply(bullets_sprites)
+        camera.apply(coins_sprites)
+        camera.apply(bullets_sprites)
         gmap.render()
-        weapons_sprites.draw(SCREEN)
+        weapon_sprite.draw(SCREEN)
         bullets_sprites.draw(SCREEN)
         Monsters_sprites.draw(SCREEN)
+        coins_sprites.draw(SCREEN)
 
         # увеличение показателя кулдауна моба
         for i in range(len(monsterStopped)):
@@ -157,7 +166,7 @@ def gameInit(level):
         pygame.display.flip()
         CLOCK.tick(FPS)
 
-    # проверка на проигрыш или выйгрыш 
+    # проверка на проигрыш или выигрыш
     if new_level:
         endgameWin()
         return level + 1
