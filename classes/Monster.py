@@ -15,6 +15,14 @@ def IntoSpeed(numb):
         return 0
 
 
+class Coin(pygame.sprite.Sprite):
+    def __init__(self, SpriteGroup, pos):
+        super().__init__(SpriteGroup)
+        self.image = pygame.transform.scale(load_image('coin.png'), (PIXELSIZE * 0.5, PIXELSIZE * 0.5))
+        self.mask = pygame.mask.from_surface(self.image)
+        self.rect = self.image.get_rect().move(*pos)
+
+
 class Monster(pygame.sprite.Sprite):
     def __init__(self, monsterType, position, playerPos, SpriteGroup, life):
         super().__init__(SpriteGroup)
@@ -39,6 +47,9 @@ class Monster(pygame.sprite.Sprite):
             self.speed[0] = 0.0
         if (int(self.position[0]), int(self.position[1] + self.speed[1])) in WallsKord:
             self.speed[1] = 0.0
+
+    def die(self, group):
+        coin = Coin(group, self.position)
 
     def update(self):
         self.position = [round(self.position[0] + self.speed[0], 3),

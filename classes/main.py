@@ -1,6 +1,5 @@
 from main_menu import main_menu_init
 from AllConstants import *
-from GameProcess import gameInit
 
 if __name__ == '__main__':
     pygame.init()
