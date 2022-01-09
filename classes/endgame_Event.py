@@ -5,7 +5,7 @@ from serviceFunctions import *
 
 
 # извините за копипаст, просто программа не правильно работала при выдаче текста из другого класса
-def endgameWin():
+def endgameWin(mobsKilled, coinsCollected):
     running = True
     textColor = (0, 0, 0)
     while running:
@@ -19,6 +19,13 @@ def endgameWin():
         text_x = WIDTH // 2 - text.get_width() // 2
         text_y = HEIGHT // 2 - text.get_height() // 2
         SCREEN.blit(text, [text_x, text_y])
+
+        fontInfo = pygame.font.Font(None, 40)
+        infoText = fontInfo.render(f'Monsters Killed: {str(mobsKilled)} Coins collected: {str(coinsCollected)}'
+                                   , True, textColor)
+        text_x = WIDTH // 2 - infoText.get_width() // 2
+        SCREEN.blit(infoText, (text_x, text_y + 60))
+
         if textColor[1] == 255:
             running = False
         pygame.display.flip()

@@ -32,6 +32,8 @@ def main_menu_init():
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if play_sprite.rect.collidepoint(event.pos):
                     level = gameInit(level)
+                    if level == 4:
+                        level = 1
                 if settings_sprite.rect.collidepoint(event.pos):
                     pass
                 if exit_sprite.rect.collidepoint(event.pos):

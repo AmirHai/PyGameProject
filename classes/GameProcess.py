@@ -32,6 +32,7 @@ def gameInit(level):
     Weapon(weapon_sprite, weapons[0])
     running_time = 0
     coins_collected = 0
+    monstersKilled = 0
     first_store_opened = True
     store_items = []
 
@@ -48,11 +49,13 @@ def gameInit(level):
     coins_sprites = pygame.sprite.Group()
 
     # создание монстров
-    for i in range(10):
-        MonsterPos = random.choice(gmap.emptyKoordinates)
-        Monster('swordsman', MonsterPos, gmap.MainHeroPosition, Monsters_sprites, level)
-        monsterStopped.append(0)
-        MonsterMove.append(False)
+    for i in gmap.emptyKoordinates:
+        if len(i) != 0:
+            for _ in range(random.randint(5, 7)):
+                MonsterPos = random.choice(i)
+                Monster('swordsman', MonsterPos, gmap.MainHeroPosition, Monsters_sprites, level)
+                monsterStopped.append(0)
+                MonsterMove.append(False)
 
     while gameRunning:
         for event in pygame.event.get():
@@ -157,6 +160,7 @@ def gameInit(level):
                         if rand > 60:
                             Coin(coins_sprites, obj.position, gmap.MainHeroPosition)
                         obj.remove(Monsters_sprites)
+                        monstersKilled += 1
                     else:
                         i.remove(bullets_sprites)
                         obj.life -= 1
@@ -217,14 +221,14 @@ def gameInit(level):
 
         moneyImage = load_image('coin.png')
         moneyImage = pygame.transform.scale(moneyImage, (25, 25))
-        SCREEN.blit(moneyImage, (35, 40))
+        SCREEN.blit(moneyImage, (50, 40))
 
         pygame.display.flip()
         CLOCK.tick(FPS)
 
     # проверка на проигрыш или выигрыш
     if new_level:
-        endgameWin()
+        endgameWin(monstersKilled, coins_collected)
         return level + 1
     else:
         endgameLose()

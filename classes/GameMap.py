@@ -65,6 +65,8 @@ class GameMap:
 
     def MapHandler(self, level):
         self.board = load_map(f'{str(level)}levelMap')
+        for i in range(25):
+            self.emptyKoordinates.append([])
         for i in range(100):
             for j in range(100):
                 x_change = CENTER[0] - round((self.MainHeroPosition[0] - i) * PIXELSIZE)
@@ -75,7 +77,7 @@ class GameMap:
                     self.WallKoordinates.add((i - 1, j))
                     self.WallKoordinates.add((i, j - 1))
                 elif self.board[i][j] == 1:
-                    self.emptyKoordinates.append([i, j])
+                    self.emptyKoordinates[(i // 20) * 5 + j // 20].append([i, j])
                     Wall('empty', x_change, y_change, self.allEmpty)
                 elif self.board[i][j] == 3:
                     Wall('empty', x_change, y_change, self.allEmpty)
