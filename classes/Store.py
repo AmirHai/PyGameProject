@@ -24,7 +24,7 @@ def store(money, flag, items):
     item3.rect = item3.image.get_rect()
     font = pygame.font.Font(None, 40)
     if items[0]:
-        item1.image = pygame.transform.scale(load_image(items[0][0] + '.png'), STOREITEMSIZE)
+        item1.image = pygame.transform.scale(load_image(items[0][0] + '.png'), STORE_ITEM_SIZE)
         item1.rect = item1.image.get_rect()
         item1.rect.x = 230
         item1.rect.y = 270
@@ -34,7 +34,7 @@ def store(money, flag, items):
         text1_price_rect.y = 360
         SCREEN.blit(text1_price, text1_price_rect)
     if items[1]:
-        item2.image = pygame.transform.scale(load_image(items[1][0] + '.png'), STOREITEMSIZE)
+        item2.image = pygame.transform.scale(load_image(items[1][0] + '.png'), STORE_ITEM_SIZE)
         item2.rect = item2.image.get_rect()
         item2.rect.x = 580
         item2.rect.y = 270
@@ -44,7 +44,7 @@ def store(money, flag, items):
         text2_price_rect.y = 360
         SCREEN.blit(text2_price, text2_price_rect)
     if items[2]:
-        item3.image = pygame.transform.scale(load_image(items[2][0] + '.png'), STOREITEMSIZE)
+        item3.image = pygame.transform.scale(load_image(items[2][0] + '.png'), STORE_ITEM_SIZE)
         item3.rect = item3.image.get_rect()
         item3.rect.x = 930
         item3.rect.y = 270
