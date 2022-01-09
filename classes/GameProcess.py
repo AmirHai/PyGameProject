@@ -61,6 +61,7 @@ def gameInit(level):
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 terminate()
+
             # проверка движения перонажа
             if event.type == pygame.KEYDOWN:
                 for i, key in enumerate(buttons):
@@ -70,6 +71,7 @@ def gameInit(level):
                 for i, key in enumerate(buttons):
                     if event.key == key:
                         allkeys[i] = False
+
             # покупка оружия
             if event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
                 bought_item, coins_collected, store_items = menu_init(coins_collected,
@@ -166,6 +168,7 @@ def gameInit(level):
                         obj.life -= 1
                         monsterStopped[j] = 1
 
+        # обработка сбора монет
         for i in coins_sprites:
             for j in gmap.playerGroup:
                 if pygame.sprite.collide_mask(i, j):
