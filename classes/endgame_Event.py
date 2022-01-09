@@ -19,7 +19,7 @@ def endgame_win(mobs_killed, coins_collected):
         SCREEN.blit(text, [text_x, text_y])
 
         font_info = pygame.font.Font(None, 40)
-        text_info = font_info.render(f'Monsters Killed: {str(mobs_killed)} Coins '
+        text_info = font_info.render(f'All Monsters Killed: {str(mobs_killed)}  All coins '
                                      f'collected: {str(coins_collected)}', True, text_color)
         text_x = WIDTH // 2 - text_info.get_width() // 2
         SCREEN.blit(text_info, (text_x, text_y + 60))

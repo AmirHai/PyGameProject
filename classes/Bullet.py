@@ -7,7 +7,7 @@ class Bullet(pygame.sprite.Sprite):
         super().__init__(group)
         result = CUR.execute("""SELECT * FROM weapon_info
                     WHERE name = ?""", (weapon_name,)).fetchall()
-        self.length = [pos[0] - CENTER[0] - PIXEL_SIZE, pos[1] - CENTER[1] - PIXEL_SIZE * 0.75]
+        self.length = [pos[0] - CENTER[0] - PIXEL_SIZE * 1.25, pos[1] - CENTER[1] - PIXEL_SIZE * 0.5]
         if self.length[0] == 0:
             self.length[0] = 1
         elif self.length[1] == 0:
