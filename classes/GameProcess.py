@@ -31,6 +31,8 @@ def gameInit(level):
     Weapon(weapon_sprite, weapons[0])
     running_time = 0
     coins_collected = 0
+    first_store_opened = True
+    store_items = []
 
     cooldawn = 0
     monsterStopped = []
@@ -66,13 +68,24 @@ def gameInit(level):
                         allkeys[i] = False
             # покупка оружия
             if event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
-                bought_item = menu_init()
-                if bought_item:
+                bought_item, coins_collected, store_items = menu_init(coins_collected,
+                                                                      first_store_opened, store_items)
+                if len(store_items) != 0:
+                    first_store_opened = False
+                if bought_item and bought_item != 'heal_potion':
                     weapons[1] = bought_item
+                elif bought_item == 'heal_potion':
+                    if gmap.PlayerLife <= 4:
+                        gmap.PlayerLife += 2
+                    elif gmap.PlayerLife == 5:
+                        gmap.PlayerLife += 1
+
             # смена оружия
             if event.type == pygame.KEYDOWN and event.key == pygame.K_r:
                 if weapons[1]:
                     weapons[0], weapons[1] = weapons[1], weapons[0]
+                    weapon_sprite = pygame.sprite.Group()
+                    Weapon(weapon_sprite, weapons[0])
         # стрельба
         if pygame.mouse.get_pressed()[0]:
             if running_time >= CUR.execute("""SELECT * FROM weapon_info WHERE name = ?""",
