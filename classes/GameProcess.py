@@ -21,6 +21,7 @@ ALLIMAGES = {
 
 
 def gameInit(level):
+    startGameEvent(level)
     gmap = GameMap(level)
     allkeys = [False] * 4
     buttons = [pygame.K_w, pygame.K_s, pygame.K_a, pygame.K_d]
@@ -210,11 +211,13 @@ def gameInit(level):
             SCREEN.blit(heart, [10 + i * 30, 10])
 
         # отрисовка количества монет
-        font = pygame.font.Font(None, 30)
+        font = pygame.font.Font(None, 35)
         text = font.render(f'{str(coins_collected)}', True, (200, 200, 200))
-        SCREEN.blit(text, (10, 40))
+        SCREEN.blit(text, (20, 40))
 
-
+        moneyImage = load_image('coin.png')
+        moneyImage = pygame.transform.scale(moneyImage, (25, 25))
+        SCREEN.blit(moneyImage, (35, 40))
 
         pygame.display.flip()
         CLOCK.tick(FPS)
