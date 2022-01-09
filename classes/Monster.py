@@ -28,7 +28,7 @@ class Coin(pygame.sprite.Sprite):
 
 
 class Monster(pygame.sprite.Sprite):
-    def __init__(self, monster_type, position, player_pos, sprite_group, level):
+    def __init__(self, monster_type, position, player_pos, sprite_group, level, difficulty):
         super().__init__(sprite_group)
         self.image = pygame.transform.scale(TYPES[monster_type], (25, 40))
 
@@ -44,6 +44,10 @@ class Monster(pygame.sprite.Sprite):
             self.life = 8
         elif level == 3:
             self.life = 12
+        if difficulty == 'hard':
+            self.life += 2
+        elif difficulty == 'easy':
+            self.life -= 2
 
     def move_to_player(self, player_position):
         if abs(player_position[0] - self.position[0]) < MONSTER_VISION and \

@@ -1,6 +1,7 @@
 from AllConstants import *
 from serviceFunctions import load_image, terminate
 from GameProcess import game_init
+from settings import settings
 
 
 def main_menu_init():
@@ -21,6 +22,7 @@ def main_menu_init():
     exit_sprite.rect.x = 450
     exit_sprite.rect.y = 515
 
+    difficulty = 'normal'
     level = 1
     items = ['pistol', None]
     money, all_money, killed = 0, 0, 0
@@ -32,7 +34,7 @@ def main_menu_init():
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if play_sprite.rect.collidepoint(event.pos):
                     new_level, items, money, all_money, killed = game_init(level, items,
-                                                                           money, all_money, killed)
+                                                                           money, all_money, killed, difficulty)
                     if level == 4 or new_level == level:
                         level = 1
                         items = ['pistol', None]
@@ -40,9 +42,9 @@ def main_menu_init():
                     else:
                         level = new_level
                 if settings_sprite.rect.collidepoint(event.pos):
-                    pass
+                    difficulty = settings(difficulty)
                 if exit_sprite.rect.collidepoint(event.pos):
                     terminate()
-        SCREEN.fill('Black')
         buttons_sprites.draw(SCREEN)
         pygame.display.flip()
+        SCREEN.fill((47, 79, 79))

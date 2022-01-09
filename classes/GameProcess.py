@@ -19,7 +19,7 @@ ALL_IMAGES = {
 }
 
 
-def game_init(level, weapons, coins_collected, all_coins_collected, monsters_killed):
+def game_init(level, weapons, coins_collected, all_coins_collected, monsters_killed, difficulty):
     start_game_event(level)
     game_map = GameMap(level)
     all_keys = [False] * 4
@@ -49,7 +49,8 @@ def game_init(level, weapons, coins_collected, all_coins_collected, monsters_kil
         if len(i) != 0:
             for _ in range(random.randint(5, 7)):
                 monster_pos = random.choice(i)
-                Monster('swordsman', monster_pos, game_map.MainHeroPosition, monsters_sprites, level)
+                Monster('swordsman', monster_pos, game_map.MainHeroPosition,
+                        monsters_sprites, level, difficulty)
                 monster_stopped.append(0)
                 monster_move.append(False)
 
