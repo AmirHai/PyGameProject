@@ -139,7 +139,9 @@ def gameInit(level):
                 if pygame.sprite.collide_mask(i, obj):
                     if obj.life == 1:
                         i.remove(bullets_sprites)
-                        obj.die(coins_sprites)
+                        rand = random.randint(0, 100)
+                        if rand > 60:
+                            Coin(coins_sprites, obj.position, gmap.MainHeroPosition)
                         obj.remove(Monsters_sprites)
                     else:
                         i.remove(bullets_sprites)
@@ -193,6 +195,13 @@ def gameInit(level):
         for i in range(gmap.PlayerLife):
             heart = pygame.transform.scale(ALLIMAGES['heart'], [25, 25])
             SCREEN.blit(heart, [10 + i * 30, 10])
+
+        # отрисовка количества монет
+        font = pygame.font.Font(None, 30)
+        text = font.render(f'{str(coins_collected)}', True, (200, 200, 200))
+        SCREEN.blit(text, (10, 40))
+
+
 
         pygame.display.flip()
         CLOCK.tick(FPS)

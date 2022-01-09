@@ -2,7 +2,7 @@ from serviceFunctions import *
 from AllConstants import *
 
 TYPES = {
-    'swordsman': load_image('enemy.png')
+    'swordsman': load_image('./SkeletonGif/скелет-аним1.png')
 }
 
 
@@ -16,11 +16,15 @@ def IntoSpeed(numb):
 
 
 class Coin(pygame.sprite.Sprite):
-    def __init__(self, SpriteGroup, pos):
+    def __init__(self, SpriteGroup, pos, playerPos):
         super().__init__(SpriteGroup)
         self.image = pygame.transform.scale(load_image('coin.png'), (PIXELSIZE * 0.5, PIXELSIZE * 0.5))
         self.mask = pygame.mask.from_surface(self.image)
-        self.rect = self.image.get_rect().move(*pos)
+
+        xpos = CENTER[0] - (playerPos[0] - pos[0]) * PIXELSIZE
+        ypos = CENTER[1] - (playerPos[1] - pos[1]) * PIXELSIZE
+
+        self.rect = self.image.get_rect().move(xpos, ypos)
 
 
 class Monster(pygame.sprite.Sprite):
@@ -48,8 +52,6 @@ class Monster(pygame.sprite.Sprite):
         if (int(self.position[0]), int(self.position[1] + self.speed[1])) in WallsKord:
             self.speed[1] = 0.0
 
-    def die(self, group):
-        coin = Coin(group, self.position)
 
     def update(self):
         self.position = [round(self.position[0] + self.speed[0], 3),
