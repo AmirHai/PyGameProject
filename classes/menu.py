@@ -38,6 +38,6 @@ def menu_init(money, flag, items):
                     flag = False
                 if exit_sprite.rect.collidepoint(event.pos):
                     terminate()
-        SCREEN.fill('Black')
+        SCREEN.fill((47, 79, 79))
         buttons_sprites.draw(SCREEN)
         pygame.display.flip()

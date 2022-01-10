@@ -3,7 +3,7 @@ from serviceFunctions import terminate
 
 
 def settings(difficulty):
-    SCREEN.fill('Black')
+    SCREEN.fill((47, 79, 79))
     font = pygame.font.Font(None, 40)
     text = 'Выберите уровень сложности'
     text_rendered = font.render(text, True, 'White')
@@ -37,7 +37,7 @@ def settings(difficulty):
                         elif difficulty == 'hard':
                             difficulty_text = 'Сложно'
                         difficulty_text_rendered = font.render(difficulty_text, True, 'White')
-                        SCREEN.fill('Black')
+                        SCREEN.fill((47, 79, 79))
                 if event.key == pygame.K_d:
                     if difficulty != 'hard':
                         difficulty = difficulties[difficulties.index(difficulty) + 1]
@@ -48,7 +48,7 @@ def settings(difficulty):
                         elif difficulty == 'hard':
                             difficulty_text = 'Сложно'
                         difficulty_text_rendered = font.render(difficulty_text, True, 'White')
-                        SCREEN.fill('Black')
+                        SCREEN.fill((47, 79, 79))
                 if event.key == pygame.K_ESCAPE:
                     return difficulty
         difficulty_text_rendered_rect = difficulty_text_rendered.get_rect()

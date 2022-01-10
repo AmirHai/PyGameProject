@@ -231,4 +231,4 @@ def game_init(level, weapons, coins_collected, all_coins_collected, monsters_kil
         return level + 1, weapons, coins_collected, all_coins_collected, monsters_killed
     else:
         endgame_lose()
-        return level
+        return level, weapons, coins_collected, all_coins_collected, monsters_killed

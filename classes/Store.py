@@ -4,7 +4,7 @@ from random import choice
 
 
 def store(money, flag, items):
-    SCREEN.fill('Black')
+    SCREEN.fill((47, 79, 79))
     if flag:
         all_items = CUR.execute("""SELECT * FROM weapon_info""").fetchall()
         items = []
