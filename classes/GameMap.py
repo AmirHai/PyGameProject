@@ -52,7 +52,7 @@ class Camera:
 # основной класс карты игры, в котором происходит обработка поля во время ходьбы
 class GameMap:
     def __init__(self, level):
-        self.board = [[0] * 100 for _ in range(100)]
+        self.board = [[0] * 115 for _ in range(115)]
         self.MainHeroPosition = [5.0, 5.0]
         self.allWalls = pygame.sprite.Group()
         self.wall_coordinates = set()
@@ -67,8 +67,8 @@ class GameMap:
         self.board = load_map(f'{str(level)}levelMap')
         for i in range(25):
             self.empty_coordinates.append([])
-        for i in range(100):
-            for j in range(100):
+        for i in range(115):
+            for j in range(115):
                 x_change = CENTER[0] - round((self.MainHeroPosition[0] - i) * PIXEL_SIZE)
                 y_change = CENTER[1] - round((self.MainHeroPosition[1] - j) * PIXEL_SIZE)
                 if self.board[i][j] == 2:
@@ -77,10 +77,12 @@ class GameMap:
                     self.wall_coordinates.add((i - 1, j))
                     self.wall_coordinates.add((i, j - 1))
                 elif self.board[i][j] == 1:
-                    self.empty_coordinates[(i // 20) * 5 + j // 20].append([i, j])
+                    self.empty_coordinates[(i // 25) * 5 + j // 25].append([i, j])
                     Wall('empty', x_change, y_change, self.allEmpty)
                 elif self.board[i][j] == 3:
                     Wall('empty', x_change, y_change, self.allEmpty)
+                elif self.board[i][j] == 4:
+                    self.MainHeroPosition = [float[i], float[j]]
         Player('hero', self.playerGroup)
 
     def render(self):
