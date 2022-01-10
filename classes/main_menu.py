@@ -35,7 +35,7 @@ def main_menu_init():
                 if play_sprite.rect.collidepoint(event.pos):
                     new_level, items, money, all_money, killed = game_init(level, items,
                                                                            money, all_money, killed, difficulty)
-                    if level == 4 or new_level == level:
+                    if level == 5 or new_level == level:
                         level = 1
                         items = ['pistol', None]
                         money, all_money, killed = 0, 0, 0
