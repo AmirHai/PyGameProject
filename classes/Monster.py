@@ -38,12 +38,7 @@ class Monster(pygame.sprite.Sprite):
         self.rect = self.image.get_rect().move(x_pos, y_pos)
         self.position = position
         self.speed = None
-        if level == 1:
-            self.life = 4
-        elif level == 2:
-            self.life = 8
-        elif level == 3:
-            self.life = 12
+        self.life = 4 * level
         if difficulty == 'hard':
             self.life += 2
         elif difficulty == 'easy':

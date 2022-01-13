@@ -69,6 +69,10 @@ class GameMap:
             self.empty_coordinates.append([])
         for i in range(115):
             for j in range(115):
+                if self.board[i][j] == 4:
+                    self.MainHeroPosition = [float(i), float(j)]
+        for i in range(115):
+            for j in range(115):
                 x_change = CENTER[0] - round((self.MainHeroPosition[0] - i) * PIXEL_SIZE)
                 y_change = CENTER[1] - round((self.MainHeroPosition[1] - j) * PIXEL_SIZE)
                 if self.board[i][j] == 2:
@@ -79,10 +83,7 @@ class GameMap:
                 elif self.board[i][j] == 1:
                     self.empty_coordinates[(i // 25) * 5 + j // 25].append([i, j])
                     Wall('empty', x_change, y_change, self.allEmpty)
-                elif self.board[i][j] == 3:
-                    Wall('empty', x_change, y_change, self.allEmpty)
-                elif self.board[i][j] == 4:
-                    self.MainHeroPosition = [float(i), float(j)]
+                elif self.board[i][j] == 3 or self.board[i][j] == 4:
                     Wall('empty', x_change, y_change, self.allEmpty)
         Player('hero', self.playerGroup)
 
