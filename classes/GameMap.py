@@ -83,6 +83,7 @@ class GameMap:
                     Wall('empty', x_change, y_change, self.allEmpty)
                 elif self.board[i][j] == 4:
                     self.MainHeroPosition = [float(i), float(j)]
+                    Wall('empty', x_change, y_change, self.allEmpty)
         Player('hero', self.playerGroup)
 
     def render(self):
