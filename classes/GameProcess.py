@@ -106,7 +106,7 @@ def game_init(level, weapons, coins_collected, all_coins_collected, monsters_kil
         # обработка передвижения персонажа
         for i, bol in enumerate(all_keys):
             if bol:
-                player_speed[i // 2 - 1] += 0.15 * (-1) ** (i % 2)
+                player_speed[i // 2 - 1] += 0.2 * (-1) ** (i % 2)
         player_speed = game_map.wall_helper(player_speed)
 
         if player_speed[0] == 0.0 and player_speed[1] == 0.0:

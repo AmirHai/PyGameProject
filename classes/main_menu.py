@@ -23,8 +23,8 @@ def main_menu_init():
     exit_sprite.rect.y = 515
 
     difficulty = 'normal'
-    level = 4
-    items = ['pistol', None]d
+    level = 1
+    items = ['pistol', None]
     money, all_money, killed = 0, 0, 0
 
     while True:
