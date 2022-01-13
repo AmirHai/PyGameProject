@@ -82,7 +82,7 @@ class GameMap:
                 elif self.board[i][j] == 3:
                     Wall('empty', x_change, y_change, self.allEmpty)
                 elif self.board[i][j] == 4:
-                    self.MainHeroPosition = [float[i], float[j]]
+                    self.MainHeroPosition = [float(i), float(j)]
         Player('hero', self.playerGroup)
 
     def render(self):
